@@ -1,0 +1,27 @@
+{
+  "name": "megachess",
+  "version": "1.0.0",
+  "description": "MegaChess client",
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcampoy/megaChess.git"
+  },
+  "author": "Matías Campoy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcampoy/megaChess/issues"
+  },
+  "homepage": "https://github.com/mcampoy/megaChess#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "websocket": "^1.0.32"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}
