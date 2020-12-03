@@ -1,5 +1,5 @@
 // const random = require('./random');
-
+ 
 // function random2(min, max) {
 //     return Math.floor((Math.random() * (max - min + 1)) + min);
 // }
@@ -7,21 +7,29 @@
 const moves = {
 
     possiblePieces: (turn, board) => {
+
         const white_pieces = boards[board_id].white_pieces;
         const black_pieces = boards[board_id].black_pieces;
 
         if (turn === 'white') {
 
+            // white pawns
             let white_pawns = white_pieces.filter(piece => piece.cel === 'P');
-            let possibles_white_pawns = white_pawns.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ');
+            // possible white pawns
+            let possible_white_pawns = white_pawns.filter(p => board.substr((p.row - 1) * 16 + p.col, 1)  === ' ' || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'q' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'q'  || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'k' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'k' || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'r' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'r' || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'b' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'b' || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'h' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'h');
 
+            // white queens
             let white_queens = white_pieces.filter(piece => piece.cel === 'Q');
-            let possibles_white_queens = white_queens.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ' || board.substr((p.row - 1) * 16 + p.col, 1) == 'p' || board.substr((p.row - 1) * 16 + p.col, 1) == 'q' || board.substr((p.row - 1) * 16 + p.col, 1) == 'h' || board.substr((p.row - 1) * 16 + p.col, 1) == 'r' || board.substr((p.row - 1) * 16 + p.col, 1) == 'k' || board.substr((p.row - 1) * 16 + p.col, 1) == 'b');
+            // possible white pawns
+            let possible_white_queens = white_queens.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ' || board.substr((p.row - 1) * 16 + p.col, 1) == 'p' || board.substr((p.row - 1) * 16 + p.col, 1) == 'q' || board.substr((p.row - 1) * 16 + p.col, 1) == 'h' || board.substr((p.row - 1) * 16 + p.col, 1) == 'r' || board.substr((p.row - 1) * 16 + p.col, 1) == 'k' || board.substr((p.row - 1) * 16 + p.col, 1) == 'b');
 
+            // white kings
             let white_kings = white_pieces.filter(piece => piece.cel === 'K')
-            let possibles_white_kings = white_kings.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ');
+            // posibble white kings
+            let possible_white_kings = white_kings.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ');
 
-            const possible_white_pieces = [...possibles_white_pawns, ...possibles_white_queens, ...possibles_white_kings];
+            //  total possible white pieces
+            const possible_white_pieces = [...possible_white_pawns, ...possible_white_queens, ...possible_white_kings];
 
             console.log("--WHITE--");
 
@@ -29,24 +37,30 @@ const moves = {
 
         } else {
 
+            //  black pawns
             let black_pawns = black_pieces.filter(piece => piece.cel === 'p');
-            let possible_black_pawns = black_pawns.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ');
+            //  possible black pawns
+            let possible_black_pawns = black_pawns.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'Q' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'Q' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'K' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'K' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'R' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'R' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'B' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'B' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'H' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'H');
 
-            let black_Queens = black_pieces.filter(piece => piece.cel === 'q');
-            let possible_black_queens = black_Queens.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ' || board.substr((p.row + 1) * 16 + p.col, 1) == 'P' || board.substr((p.row + 1) * 16 + p.col, 1) == 'Q' || board.substr((p.row + 1) * 16 + p.col, 1) == 'H' || board.substr((p.row + 1) * 16 + p.col, 1) == 'R' || board.substr((p.row + 1) * 16 + p.col, 1) == 'K' || board.substr((p.row + 1) * 16 + p.col, 1) == 'B');
-
+            // black queens
+            let black_queens = black_pieces.filter(piece => piece.cel === 'q');
+            //  possible black queens
+            let possible_black_queens = black_queens.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ' || board.substr((p.row + 1) * 16 + p.col, 1) == 'P' || board.substr((p.row + 1) * 16 + p.col, 1) == 'Q' || board.substr((p.row + 1) * 16 + p.col, 1) == 'H' || board.substr((p.row + 1) * 16 + p.col, 1) == 'R' || board.substr((p.row + 1) * 16 + p.col, 1) == 'K' || board.substr((p.row + 1) * 16 + p.col, 1) == 'B');
+            //  black kings
             let black_kings = black_pieces.filter(piece => piece.cel === 'k');
+            // possible black kings
             let possible_black_kings = black_kings.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ');
 
-            const possibles_black_pieces = [...possible_black_pawns, ...possible_black_queens, ...possible_black_kings];
+            // total possible black pieces
+            const possible_black_pieces = [...possible_black_pawns, ...possible_black_queens, ...possible_black_kings];
 
             console.log("--BLACK--");
 
-            return possibles_black_pieces.reverse();
+            return possible_black_pieces.reverse();
         }
     },
 
-    selectPiece: (posiblesPieces) => {
+    selectPiece: (possiblePieces, board) => {
 
         console.log('selecting Piece!');
 
@@ -54,10 +68,41 @@ const moves = {
 
         while (!selected_piece) {
 
-            const possible_pawn = posiblesPieces.find(p => p.cel === 'p' || p.cel === 'P');
+            const possible_pawns = possiblePieces.filter(p => {
+
+                if (p.cel === 'p' || p.cel === 'P') {
+
+                    if (p.color === 'white') {
+
+                        if (board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'q' ||
+                            board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'r' ||
+                            board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'q' ||
+                            board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'r') {
+                            return p.capture = true
+                        }
+
+                    } else {
+
+                        if (board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'Q' ||
+                            board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'R' ||
+                            board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'Q' ||
+                            board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'R') {
+                            return p.capture = true
+                        }
+                    }
+                }
+            })
+
+            const possible_pawn_capture = possible_pawns.find(p => p.capture === true)
             // possible_pawn = posiblesPieces.find(p => (p.cel === 'p' ||  p.cel === 'P') && (p.col === 8 || p.col === 9));
-            const possible_queen = posiblesPieces.find(p => p.cel === 'q' || p.cel === 'Q');
-            const possible_king = posiblesPieces.find(p => p.cel === 'k' || p.cel === 'K');
+            const possible_pawn = possiblePieces.find(p => p.capture === false)
+            // const possible_pawn = possiblePieces.find( p => p.cel === 'p' || p.cel === 'P')
+            const possible_queen = possiblePieces.find(p => p.cel === 'q' || p.cel === 'Q');
+            const possible_king = possiblePieces.find(p => p.cel === 'k' || p.cel === 'K');
+
+            if (possible_pawn_capture) {
+                return selected_piece = possible_pawn_capture;
+            }
 
             if (possible_king) {
                 return selected_piece = possible_king;
@@ -88,7 +133,7 @@ const moves = {
     movePawn: (from_row, from_col, color) => {
 
         if (color === 'white') {
-            if (from_row === 12 || from_row === 13) {
+            if (from_row > 11) {
                 return {
                     color: color,
                     to_row: from_row - 2,
@@ -103,7 +148,7 @@ const moves = {
             }
         } else {
 
-            if (from_row === 2 || from_row === 3) {
+            if (from_row < 4) {
                 return {
                     color: color,
                     to_row: from_row + 2,
@@ -129,9 +174,7 @@ const moves = {
                         to_row: from_row - 1,
                         to_col: from_col - 1
                     };
-                } else {
-                    return 'invalid move'
-                };
+                }
 
             } else {
                 if (from_col < 15) {
@@ -140,10 +183,8 @@ const moves = {
                         to_row: from_row - 1,
                         to_col: from_col + 1
                     };
-                } else {
-                    return 'invalid move'
-                };
-            };
+                }
+            }
 
         } else {
 
@@ -154,9 +195,7 @@ const moves = {
                         to_row: from_row + 1,
                         to_col: from_col + 1
                     }
-                } else {
-                    return 'invalid move'
-                };
+                }
 
             } else {
                 if (from_col > 0) {
@@ -165,10 +204,7 @@ const moves = {
                         to_row: from_row + 1,
                         to_col: from_col - 1
                     }
-                } else {
-                    return 'invalid move'
-                };
-
+                }
             }
         }
 
@@ -176,62 +212,22 @@ const moves = {
 
     moveQueen: (from_row, from_col, color) => {
 
-        // distance = random(6);
-        // vertical = random(3) - 1;
-        // horizontal = random(3) - 1;
-
-        // if (color === 'white') {
-        //     let rowW = from_row - (distance * vertical);
-        //     let colW = from_col - (distance * vertical);
-        //     console.log('row: ' + rowW)
-        //     console.log('col: ' + colW)
-        //     if ((rowW < 14 && colW > 0)) {
-
-        //         return {
-        //             to_row: rowW,
-        //             to_col: colW,
-        //         }
-        //     } else {
-
-        //         return {
-        //             to_row: from_row - (distance * vertical),
-        //             to_col: from_col - (distance * horizontal)
-        //         }
-        //     }
-
-        // } else {
-        //     let rowB = from_row + (distance * vertical);
-        //     let colB = from_col + (distance * vertical);
-        //     console.log('row: ' + rowB)
-        //     console.log('col: ' + colB)
-        //     if ((rowB > 0 && colB > 0)) {
-
-        //         return {
-        //             to_row: rowB,
-        //             to_col: colB,
-        //         }
-        //     } else {
-
-        //         return {
-        //             to_row: from_row + (distance * vertical),
-        //             to_col: from_col + (distance * horizontal)
-        //         }
-        //     }
-        // }
         if (color === 'white') {
-
-            return {
-                color: color,
-                to_row: from_row - 1,
-                to_col: from_col
+            if (from_row > 0) {
+                return {
+                    color: color,
+                    to_row: from_row - 1,
+                    to_col: from_col
+                }
             }
 
         } else {
-
-            return {
-                color: color,
-                to_row: from_row + 1,
-                to_col: from_col
+            if (from_row < 15) {
+                return {
+                    color: color,
+                    to_row: from_row + 1,
+                    to_col: from_col
+                }
             }
 
         }
@@ -307,50 +303,6 @@ const moves = {
             }
         }
     }
-    //     distance = random(2);
-    //     vertical = random(3) - 1;
-    //     horizontal = random(3) - 1;
-
-    //     if (color === 'white') {
-    //         let rowW = from_row - (distance * vertical);
-    //         let colW = from_col - (distance * horizontal);
-    //         console.log('row: ' + rowW)
-    //         console.log('col: ' + colW)
-    //         if ((rowW < 15 && colW > 0)) {
-
-    //             return {
-    //                 to_row: rowW,
-    //                 to_col: colW,
-    //             }
-    //         } else {
-
-    //             return {
-    //                 to_row: from_row - (distance * vertical),
-    //                 to_col: from_col - (distance * horizontal)
-    //             }
-    //         }
-
-    //     } else {
-    //         let rowB = from_row + (distance * vertical);
-    //         let colB = from_col + (distance * horizontal);
-    //         console.log('row: ' + rowB)
-    //         console.log('col: ' + colB)
-    //         if ((rowB > 0 && colB > 0)) {
-
-    //             return {
-    //                 to_row: rowB,
-    //                 to_col: colB,
-    //             }
-    //         } else {
-
-    //             return {
-    //                 to_row: from_row + (distance * vertical),
-    //                 to_col: from_col + (distance * horizontal)
-    //             }
-    //         }
-    //     }
-    // }
-
 }
 
 

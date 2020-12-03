@@ -3,16 +3,16 @@ require('dotenv').config();
 const WebSocketClient = require('websocket').client;
 const client = new WebSocketClient();
 
-const uri = 'ws://mega-chess-qa.herokuapp.com/service?authtoken=';
-const auth_token = process.env.AUTH_TOKEN2;
-// const uri = 'ws://megachess.herokuapp.com/service?authtoken='
-// const auth_token = process.env.AUTH_TOKEN;
+// const uri = 'ws://mega-chess-qa.herokuapp.com/service?authtoken=';
+// const auth_token = process.env.AUTH_TOKEN2;
+const uri = 'ws://megachess.herokuapp.com/service?authtoken='
+const auth_token = process.env.AUTH_TOKEN;
 
 client.connect(uri + auth_token);
 
 const send = require('./controllers/sendData');
 
-const possibleMove = require('./controllers/strategies');
+const strategy = require('./controllers/strategies');
 const { possiblePieces, selectPiece } = require('./controllers/moves');
 
 
@@ -44,16 +44,6 @@ client.on('connect', async (connection) => {
                 console.log("Received: '" + message.utf8Data + "'");
             }
 
-            if (event === 'gameover') {
-                if (parseInt(data.white_score) > 0 && parseInt(data.white_score) > parseInt(data.black_score)) {
-                    console.log(`
-                    \n----------------------------------------------------------\nCongratulations, ${data.white_username}!! You win!!! \n----------------------------------------------------------\n`);
-                } else {
-                    console.log(`
-                    \n----------------------------------------------------------\nCongratulations, ${data.black_username}!! You win!!!\n----------------------------------------------------------\n`);
-                }
-            }
-
             // let users = data.users_list
             // console.log(users)
             // if (users) {
@@ -83,14 +73,14 @@ client.on('connect', async (connection) => {
 
                 parseBoard(data);
 
-                const possibles_pieces = possiblePieces(data.actual_turn, data.board);
-                // console.log(possibles_pieces)
-                const selected_piece = selectPiece(possibles_pieces);
+                const possible_pieces = possiblePieces(data.actual_turn, data.board);
+
+                const selected_piece = selectPiece(possible_pieces, data.board);
 
                 console.log(`Selected piece:`);
                 console.log(selected_piece);
 
-                const response = possibleMove(selected_piece, data);
+                const response = strategy(selected_piece, data);
                 console.log(response);
 
                 await send(connection, 'move', response);

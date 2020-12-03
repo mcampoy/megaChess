@@ -21,6 +21,8 @@ const parseBoard = (data) => {
                     cel,
                     row: i,
                     col: j,
+                    color: cel === cel.toUpperCase() ? 'white' : 'black',
+                    capture: false
                 };
                 if (cel === cel.toUpperCase()) {
                     white_pieces.push(piece);
@@ -32,10 +34,10 @@ const parseBoard = (data) => {
     }
     console.log("W 0123456789012345")
 
-
+   
     boards[board_id] = {
         white_pieces: white_pieces,
-        black_pieces: black_pieces
+        black_pieces: black_pieces,
     };
 
     return boards

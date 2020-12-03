@@ -2,24 +2,6 @@ const moves = require('../../controllers/moves');
 const parseBoard = require('../../controllers/board')
 const initialBoard = require('../dataTest/initialBoard.json');
 
-// describe('se prueba el mensaje enviado al servidor en your_turn', () => {
-
-//     const data = { 
-//         board_id: 'adfsadfasdfasdfd',
-//         turn_token: 'asdfasdfasfdasdfdsf',
-//         from_row: 3,
-//         from_col: 0,
-//         to_row: 5,
-//         to_col: 0
-//      }
-//     console.log('----------')
-//     console.log(data.board_id)
-
-//     expect( moves.move( "adfsadfasdfasdfd", 3, 0, 5, 0, "asdfasdfasfdasdfdsf" ) ).toBe(data)
-
-
-// })
-
 describe('Test de las piezas con movimientos posibles', () => {
     test('debe retornar 16 piezas con movimiento en el tablero inicial', () => {
 
@@ -36,8 +18,6 @@ describe('se prueban movimiento de los peones', () => {
 
     test('debe mover dos filas en el primer movimiento', () => {
 
-        // const moveWPawn = move.movePawn(12, 0, 'white');
-        // expect( moveWPawn ).toEqual({ color: 'white', to_row: 10, to_col: 0 });
         expect(moves.movePawn(12, 0, 'white')).toEqual({
             color: 'white',
             to_row: 10,
@@ -51,7 +31,6 @@ describe('se prueban movimiento de los peones', () => {
             to_col: 0
         });
     })
-
 
     test('debe mover el peón blanco un lugar', () => {
 
@@ -93,7 +72,13 @@ describe('se prueban movimiento de los peones', () => {
 
     test('debe impedir que al comer se salga del tablero', () => {
 
-        expect(moves.capturePawn(12, 15, 'white', 'right')).toBe('invalid move')
+        expect(moves.capturePawn(12, 15, 'white', 'right')).toBeFalsy()
+
+    })
+
+    test('debe impedir que al comer se salga del tablero', () => {
+
+        expect(moves.capturePawn(6, 15, 'black', 'left')).toBeFalsy()
 
     })
 

@@ -6,69 +6,65 @@ const {
     capturePawn
 } = require('./moves');
 
+// const verifyBoard = require('./verifyBoard');
 
-const possibleMove = (selectedPiece, data) => {
+const strategy = (piece, data) => {
 
-    const piece = selectedPiece.cel;
+    if (piece.cel === 'P') {
 
-    if (piece === 'p') {
-
-        if (board.substr((selectedPiece.row + 1) * 16 + selectedPiece.col + 1, 1) === 'Q') {
-            const posible_move = capturePawn(selectedPiece.row, selectedPiece.col, data.actual_turn, 'left');
-            const resp = move(data, selectedPiece.row, selectedPiece.col, posible_move.to_row, posible_move.to_col);
-            return resp;
+        if (board.substr((piece.row - 1) * 16 + piece.col - 1, 1) === 'q' ||  board.substr((piece.row - 1) * 16 + piece.col - 1, 1) === 'k') {
+            const possible_move = capturePawn(piece.row, piece.col, data.actual_turn, 'left');
+            return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
 
-        if (board.substr((selectedPiece.row + 1) * 16 + selectedPiece.col - 1, 1) === 'Q') {
-            const posible_move = capturePawn(selectedPiece.row, selectedPiece.col, data.actual_turn, 'right');
-            const resp = move(data, selectedPiece.row, selectedPiece.col, posible_move.to_row, posible_move.to_col);
-            return resp;
+        if (board.substr((piece.row - 1) * 16 + piece.col + 1, 1) === 'q') {
+            const possible_move = capturePawn(piece.row, piece.col, data.actual_turn, 'right');
+            return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
 
-        if (board.substr((selectedPiece.row + 1) * 16 + selectedPiece.col, 1) === ' ') {
-            const posible_move = movePawn(selectedPiece.row, selectedPiece.col, data.actual_turn);
-            return move(data, selectedPiece.row, selectedPiece.col, posible_move.to_row, posible_move.to_col);
+        if (board.substr((piece.row - 1) * 16 + piece.col, 1) === ' ') {
+            const possible_move = movePawn(piece.row, piece.col, data.actual_turn);
+            return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
 
     }
 
-    if (piece === 'P') {
+    if (piece.cel === 'p') {
 
-        if (board.substr((selectedPiece.row - 1) * 16 + selectedPiece.col - 1, 1) === 'q') {
-            const posible_move = capturePawn(selectedPiece.row, selectedPiece.col, data.actual_turn, 'left');
-            return move(data, selectedPiece.row, selectedPiece.col, posible_move.to_row, posible_move.to_col);
+        if (board.substr((piece.row + 1) * 16 + piece.col + 1, 1) === 'Q') {
+            const possible_move = capturePawn(piece.row, piece.col, data.actual_turn, 'left');
+            return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
 
-        if (board.substr((selectedPiece.row - 1) * 16 + selectedPiece.col + 1, 1) === 'q') {
-            const posible_move = capturePawn(selectedPiece.row, selectedPiece.col, data.actual_turn, 'right');
-            return move(data, selectedPiece.row, selectedPiece.col, posible_move.to_row, posible_move.to_col);
+        if (board.substr((piece.row + 1) * 16 + piece.col - 1, 1) === 'Q') {
+            const possible_move = capturePawn(piece.row, piece.col, data.actual_turn, 'right');
+            return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
 
-        if (board.substr((selectedPiece.row - 1) * 16 + selectedPiece.col, 1) === ' ') {
-            const posible_move = movePawn(selectedPiece.row, selectedPiece.col, data.actual_turn);
-            return move(data, selectedPiece.row, selectedPiece.col, posible_move.to_row, posible_move.to_col);
-        }
-
-    }
-
-    if (piece === 'q' || piece === 'Q') {
-        const posible_move = moveQueen(selectedPiece.row, selectedPiece.col, data.actual_turn);
-        return move(data, selectedPiece.row, selectedPiece.col, posible_move.to_row, posible_move.to_col);
-    }
-
-    if (piece === 'K') {
-        if (board.substr((selectedPiece.row - 1) * 16 + selectedPiece.col, 1) === ' ') {
-            const posible_move = moveKing(selectedPiece.row, selectedPiece.col, data.actual_turn);
-            return move(data, selectedPiece.row, selectedPiece.col, posible_move.to_row, posible_move.to_col);
+        if (board.substr((piece.row + 1) * 16 + piece.col, 1) === ' ') {
+            const possible_move = movePawn(piece.row, piece.col, data.actual_turn);
+            return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
     }
 
-    if (piece === 'k') {
-        if (board.substr((selectedPiece.row + 1) * 16 + selectedPiece.col, 1) === ' ') {
-            const posible_move = moveKing(selectedPiece.row, selectedPiece.col, data.actual_turn);
-            return move(data, selectedPiece.row, selectedPiece.col, posible_move.to_row, posible_move.to_col);
+    if (piece.cel === 'q' || piece.cel === 'Q') {
+        const possible_move = moveQueen(piece.row, piece.col, data.actual_turn);
+        return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
+    }
+
+    if (piece.cel === 'K') {
+        if (board.substr((piece.row - 1) * 16 + piece.col, 1) === ' ') {
+            const possible_move = moveKing(piece.row, piece.col, data.actual_turn);
+            return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
+        }
+    }
+
+    if (piece.cel === 'k') {
+        if (board.substr((piece.row + 1) * 16 + piece.col, 1) === ' ') {
+            const possible_move = moveKing(piece.row, piece.col, data.actual_turn);
+            return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
     }
 }
 
-module.exports = possibleMove
+module.exports = strategy
