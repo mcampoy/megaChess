@@ -16,12 +16,12 @@ const moves = {
             // white pawns
             let white_pawns = white_pieces.filter(piece => piece.cel === 'P');
             // possible white pawns
-            let possible_white_pawns = white_pawns.filter(p => board.substr((p.row - 1) * 16 + p.col, 1)  === ' ' || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'q' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'q'  || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'k' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'k' || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'r' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'r' || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'b' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'b' || board.substr((p.row - 1) * 16 + p.col - 1, 1) === 'h' || board.substr((p.row - 1) * 16 + p.col + 1, 1) === 'h');
+            let possible_white_pawns = white_pawns.filter(piece => board.substr((piece.row - 1) * 16 + piece.col, 1)  === ' ' || black_pieces.some(bp => bp.cel === board.substr((piece.row - 1) * 16 + piece.col - 1, 1)) || black_pieces.some(bp => bp.cel === board.substr((piece.row - 1) * 16 + piece.col + 1, 1)));
 
             // white queens
             let white_queens = white_pieces.filter(piece => piece.cel === 'Q');
             // possible white pawns
-            let possible_white_queens = white_queens.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ' || board.substr((p.row - 1) * 16 + p.col, 1) == 'p' || board.substr((p.row - 1) * 16 + p.col, 1) == 'q' || board.substr((p.row - 1) * 16 + p.col, 1) == 'h' || board.substr((p.row - 1) * 16 + p.col, 1) == 'r' || board.substr((p.row - 1) * 16 + p.col, 1) == 'k' || board.substr((p.row - 1) * 16 + p.col, 1) == 'b');
+            let possible_white_queens = white_queens.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ' || black_pieces.some(bp => bp.cel === board.substr((p.row - 1) * 16 + p.col, 1)))
 
             // white kings
             let white_kings = white_pieces.filter(piece => piece.cel === 'K')
@@ -40,12 +40,12 @@ const moves = {
             //  black pawns
             let black_pawns = black_pieces.filter(piece => piece.cel === 'p');
             //  possible black pawns
-            let possible_black_pawns = black_pawns.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'Q' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'Q' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'K' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'K' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'R' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'R' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'B' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'B' || board.substr((p.row + 1) * 16 + p.col + 1, 1) === 'H' || board.substr((p.row + 1) * 16 + p.col - 1, 1) === 'H');
+            let possible_black_pawns = black_pawns.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ' || white_pieces.some( wp => wp.cel === board.substr((p.row + 1) * 16 + p.col + 1, 1)) || white_pieces.some( wp => wp.cel === board.substr((p.row + 1) * 16 + p.col - 1, 1)) );
 
             // black queens
             let black_queens = black_pieces.filter(piece => piece.cel === 'q');
             //  possible black queens
-            let possible_black_queens = black_queens.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ' || board.substr((p.row + 1) * 16 + p.col, 1) == 'P' || board.substr((p.row + 1) * 16 + p.col, 1) == 'Q' || board.substr((p.row + 1) * 16 + p.col, 1) == 'H' || board.substr((p.row + 1) * 16 + p.col, 1) == 'R' || board.substr((p.row + 1) * 16 + p.col, 1) == 'K' || board.substr((p.row + 1) * 16 + p.col, 1) == 'B');
+            let possible_black_queens = black_queens.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ' ||  white_pieces.some( wp => wp.cel === board.substr((p.row + 1) * 16 + p.col, 1)) )
             //  black kings
             let black_kings = black_pieces.filter(piece => piece.cel === 'k');
             // possible black kings

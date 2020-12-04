@@ -2,6 +2,28 @@ const moves = require('../../controllers/moves');
 const parseBoard = require('../../controllers/board')
 const initialBoard = require('../dataTest/initialBoard.json');
 
+
+describe('se prueba el mensaje enviado al servidor en your_turn', () => {
+    test('should ', () => {
+
+        const data = {
+            board_id: 'adfsadfasdfasdfd',
+            turn_token: 'asdfasdfasfdasdfdsf',
+            from_row: 3,
+            from_col: 0,
+            to_row: 5,
+            to_col: 0
+        }
+        console.log('----------')
+        console.log(data.board_id)
+
+        // let converce = JSON.stringify(data)
+
+        expect(moves.move("adfsadfasdfasdfd", 3, 0, 5, 0, "asdfasdfasfdasdfdsf")).toEqual(data)
+    })
+
+})
+
 describe('Test de las piezas con movimientos posibles', () => {
     test('debe retornar 16 piezas con movimiento en el tablero inicial', () => {
 

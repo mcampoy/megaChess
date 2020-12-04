@@ -1,3 +1,4 @@
+const parseBoard = require('./board');
 const {
     move,
     moveQueen,
@@ -6,18 +7,22 @@ const {
     capturePawn
 } = require('./moves');
 
-// const verifyBoard = require('./verifyBoard');
-
 const strategy = (piece, data) => {
+
+    parseBoard(data);
+    const white_pieces = boards[board_id].white_pieces;
+    const black_pieces = boards[board_id].black_pieces;
 
     if (piece.cel === 'P') {
 
-        if (board.substr((piece.row - 1) * 16 + piece.col - 1, 1) === 'q' ||  board.substr((piece.row - 1) * 16 + piece.col - 1, 1) === 'k') {
+        if (black_pieces.some(bp => bp.cel === board.substr((piece.row - 1) * 16 + piece.col - 1, 1))) {
+
             const possible_move = capturePawn(piece.row, piece.col, data.actual_turn, 'left');
             return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
 
-        if (board.substr((piece.row - 1) * 16 + piece.col + 1, 1) === 'q') {
+
+        if (black_pieces.some(bp => bp.cel === board.substr((piece.row - 1) * 16 + piece.col + 1, 1))) {
             const possible_move = capturePawn(piece.row, piece.col, data.actual_turn, 'right');
             return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
@@ -31,12 +36,13 @@ const strategy = (piece, data) => {
 
     if (piece.cel === 'p') {
 
-        if (board.substr((piece.row + 1) * 16 + piece.col + 1, 1) === 'Q') {
+
+        if (white_pieces.some(wp => wp.cel === board.substr((piece.row + 1) * 16 + piece.col + 1, 1))) {
             const possible_move = capturePawn(piece.row, piece.col, data.actual_turn, 'left');
             return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }
 
-        if (board.substr((piece.row + 1) * 16 + piece.col - 1, 1) === 'Q') {
+        if (white_pieces.some(wp => wp.cel === board.substr((piece.row + 1) * 16 + piece.col - 1, 1))) {
             const possible_move = capturePawn(piece.row, piece.col, data.actual_turn, 'right');
             return move(data, piece.row, piece.col, possible_move.to_row, possible_move.to_col);
         }

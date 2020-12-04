@@ -44,6 +44,16 @@ client.on('connect', async (connection) => {
                 console.log("Received: '" + message.utf8Data + "'");
             }
 
+            if (event === 'gameover') {
+                if (parseInt(data.white_score) > 0 && parseInt(data.white_score) > parseInt(data.black_score)) {
+                    console.log(`
+                    \n----------------------------------------------------------\nCongratulations, ${data.white_username}!! You win!!! \n----------------------------------------------------------\n`);
+                } else {
+                    console.log(`
+                    \n----------------------------------------------------------\nCongratulations, ${data.black_username}!! You win!!!\n----------------------------------------------------------\n`);
+                }
+            }
+
             // let users = data.users_list
             // console.log(users)
             // if (users) {
