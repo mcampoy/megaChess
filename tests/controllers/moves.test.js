@@ -1,28 +1,10 @@
 const moves = require('../../controllers/moves');
 const parseBoard = require('../../controllers/board')
 const initialBoard = require('../dataTest/initialBoard.json');
+const {
+    possiblePieces, selectPiece
+} = require('../../controllers/moves');
 
-
-describe('se prueba el mensaje enviado al servidor en your_turn', () => {
-    test('should ', () => {
-
-        const data = {
-            board_id: 'adfsadfasdfasdfd',
-            turn_token: 'asdfasdfasfdasdfdsf',
-            from_row: 3,
-            from_col: 0,
-            to_row: 5,
-            to_col: 0
-        }
-        console.log('----------')
-        console.log(data.board_id)
-
-        // let converce = JSON.stringify(data)
-
-        expect(moves.move("adfsadfasdfasdfd", 3, 0, 5, 0, "asdfasdfasfdasdfdsf")).toEqual(data)
-    })
-
-})
 
 describe('Test de las piezas con movimientos posibles', () => {
     test('debe retornar 16 piezas con movimiento en el tablero inicial', () => {
@@ -76,7 +58,7 @@ describe('se prueban movimiento de los peones', () => {
 
     test('debe comer el peón blanco hacia la izquierda', () => {
 
-        expect(moves.capturePawn(12, 15, 'white', 'left')).toEqual({
+        expect(moves.movePawn(12, 15, 'white', 'left')).toEqual({
             color: 'white',
             to_row: 11,
             to_col: 14
@@ -85,7 +67,7 @@ describe('se prueban movimiento de los peones', () => {
 
     test('debe comer el peón blanco hacia la derecha', () => {
 
-        expect(moves.capturePawn(12, 0, 'white', 'right')).toEqual({
+        expect(moves.movePawn(12, 0, 'white', 'right')).toEqual({
             color: 'white',
             to_row: 11,
             to_col: 1
@@ -94,23 +76,47 @@ describe('se prueban movimiento de los peones', () => {
 
     test('debe impedir que al comer se salga del tablero', () => {
 
-        expect(moves.capturePawn(12, 15, 'white', 'right')).toBeFalsy()
+        expect(moves.movePawn(12, 15, 'white', 'right')).toBeFalsy()
 
     })
 
     test('debe impedir que al comer se salga del tablero', () => {
 
-        expect(moves.capturePawn(6, 15, 'black', 'left')).toBeFalsy()
+        expect(moves.movePawn(6, 15, 'black', 'left')).toBeFalsy()
 
     })
 
     test('debe comer hacia la derecha el peón negro', () => {
 
-        expect(moves.capturePawn(5, 5, 'black', 'right')).toEqual({
+        expect(moves.movePawn(5, 5, 'black', 'right')).toEqual({
             color: 'black',
             to_row: 6,
             to_col: 4
         })
     })
+
+})
+
+
+describe('se prueba la selección de posibles piezas', () => {
+
+    test('debe retornar 23 piezas posibles', () => {
+
+        let board = "rrhhbbqq  bbhhrrrrhhbbqq  bbhhrrpppppppp  pppppppppppppp  ppppp                                                p                Q Q  Q      QQQ  P  P  P  P P  PPP   PP            PP   PPP PP  PP   P   P    kk P            kk      RRHHBBQQqqBBHHRRRRHHBBQQqqBBHHRR"
+
+        expect((possiblePieces('black', board)).length).toBe(23)
+
+    })
+
+    test('debe retornar falso', ()=>{
+        let board = "rrhhbbqq  bbhhrrrrhhbbqq  bbhhrrpppppppp  pppppppppppppp  ppppp                                                p                Q Q  Q      QQQ  P  P  P  P P  PPP   PP            PP   PPP PP  PP   P   P    kk P            kk      RRHHBBQQqqBBHHRRRRHHBBQQqqBBHHRR"
+
+        let possible = possiblePieces('black', board);
+
+        expect(selectPiece(possible, board)).toEqual({ cel: 'p', row: 6, col: 15, color: 'black', capture: true, value: 10 })
+
+    })
+
+
 
 })

@@ -1,3 +1,33 @@
+const values = {
+    p: 10,
+    P: 10,
+    h: 30,
+    H: 30,
+    r: 60,
+    R: 60,
+    Q: 5,
+    q: 5,
+    K: 100,
+    k: 100
+}
+
+
+var pretty_pieces = {
+    'p': '♟',
+    'P': '♙',
+    'r': '♜',
+    'R': '♖',
+    'k': '♚',
+    'K': '♔',
+    'h': '♞',
+    'H': '♘',
+    'b': '♝',
+    'B': '♗',
+    'q': '♛',
+    'Q': '♕',
+    ' ': ' '
+}
+
 
 const parseBoard = (data) => {
     boards = {};
@@ -22,7 +52,8 @@ const parseBoard = (data) => {
                     row: i,
                     col: j,
                     color: cel === cel.toUpperCase() ? 'white' : 'black',
-                    capture: false
+                    capture: false,
+                    value: values[cel]
                 };
                 if (cel === cel.toUpperCase()) {
                     white_pieces.push(piece);
@@ -34,7 +65,7 @@ const parseBoard = (data) => {
     }
     console.log("W 0123456789012345")
 
-   
+
     boards[board_id] = {
         white_pieces: white_pieces,
         black_pieces: black_pieces,
