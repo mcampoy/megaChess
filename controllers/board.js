@@ -1,12 +1,14 @@
 const values = {
-    p: 10,
-    P: 10,
-    h: 30,
-    H: 30,
-    r: 60,
-    R: 60,
     Q: 5,
     q: 5,
+    p: 10,
+    P: 10,
+    H: 30,
+    h: 30,
+    B: 40,
+    b: 40,
+    R: 60,
+    r: 60,
     K: 100,
     k: 100
 }
@@ -53,7 +55,8 @@ const parseBoard = (data) => {
                     col: j,
                     color: cel === cel.toUpperCase() ? 'white' : 'black',
                     capture: false,
-                    value: values[cel]
+                    value: values[cel],
+                    value_capture: 0
                 };
                 if (cel === cel.toUpperCase()) {
                     white_pieces.push(piece);

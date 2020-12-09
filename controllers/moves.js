@@ -16,18 +16,19 @@ const moves = {
             // white pawns
             let white_pawns = white_pieces.filter(piece => piece.cel === 'P');
             // possible white pawns
-            let possible_white_pawns = white_pawns.filter(piece => board.substr((piece.row - 1) * 16 + piece.col, 1) === ' ' || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + piece.col - 1, 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + piece.col + 1, 1)));
+            let possible_white_pawns = white_pawns.filter(piece => board.substr((piece.row - 1) * 16 + piece.col, 1) === ' ' || black_pieces.some(black_piece => black_piece.cel === board.substr(piece.col > 0 && (piece.row - 1) * 16 + piece.col - 1, 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr(piece.col < 15 && ((piece.row - 1) * 16) + (piece.col + 1), 1)));
 
             // white queens
             let white_queens = white_pieces.filter(piece => piece.cel === 'Q');
             // possible white pawns
 
-            let possible_white_queens = white_queens.filter(piece => board.substr((piece.row - 1) * 16 + piece.col, 1) == ' ' || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + piece.col, 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 +( piece.col + 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row -1) * 16 + (piece.col - 1), 1)) || black_pieces.some(black_pieces => black_pieces.cel === board.substr(piece.row * 16 + (piece.col + 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col - 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr(piece.row * 16 + (piece.col - 1), 1)));
+            let possible_white_queens = white_queens.filter(piece => ((piece.row > 0) && board.substr((piece.row - 1) * 16 + piece.col, 1) == ' ') || ((piece.row > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + piece.col, 1)) )|| ((piece.row > 0 && piece.col < 15) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col + 1), 1))) || ((piece.row > 0 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr(((piece.row - 1) * 16) + (piece.col - 1), 1))) || (piece.col < 15 && black_pieces.some(black_pieces => black_pieces.cel === board.substr(piece.row * 16 + (piece.col + 1), 1))) || ((piece.row < 15 && piece.col < 15) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + (piece.col + 1), 1))) || (piece.row < 15 && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1))) || ((piece.row < 15 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1))) || (piece.col > 0 && black_pieces.some(black_piece => black_piece.cel === board.substr(piece.row * 16 + (piece.col - 1), 1))));
 
             // white kings
             let white_kings = white_pieces.filter(piece => piece.cel === 'K')
             // posibble white kings
-            let possible_white_kings = white_kings.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ');
+            // let possible_white_kings = white_kings.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ');
+            let possible_white_kings = white_kings.filter(piece => board.substr((piece.row - 1) * 16 + piece.col, 1) == ' ' || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + piece.col, 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col + 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col - 1), 1)) || black_pieces.some(black_pieces => black_pieces.cel === board.substr(piece.row * 16 + (piece.col + 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col + 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr(piece.row * 16 + (piece.col - 1), 1)));
 
             //  total possible white pieces
             const possible_white_pieces = [...possible_white_pawns, ...possible_white_queens, ...possible_white_kings];
@@ -41,17 +42,19 @@ const moves = {
             //  black pawns
             let black_pawns = black_pieces.filter(piece => piece.cel === 'p');
             //  possible black pawns
-            let possible_black_pawns = black_pawns.filter(p => board.substr((p.row + 1) * 16 + p.col, 1) == ' ' || white_pieces.some(wp => wp.cel === board.substr((p.row + 1) * 16 + p.col + 1, 1)) || white_pieces.some(wp => wp.cel === board.substr((p.row + 1) * 16 + p.col - 1, 1)));
-           
+            let possible_black_pawns = black_pawns.filter(piece => board.substr(((piece.row + 1) * 16) + piece.col, 1) === ' ' || white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row < 15 && piece.col < 15) && ((piece.row + 1) * 16) + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row < 15 && piece.col > 0) && ((piece.row + 1) * 16) + (piece.col - 1), 1)));
+
             // black queens
             let black_queens = black_pieces.filter(piece => piece.cel === 'q');
             //  possible black queens
-            let possible_black_queens = black_queens.filter(piece => board.substr((piece.row + 1) * 16 + piece.col, 1) == ' ' || white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row  * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row * 16) + (piece.col + 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row * 16) + (piece.col - 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr( piece.row > 1 && (piece.row - 1 ) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(  piece.row > 1 && (piece.row - 1) * 16 + piece.col, 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr(  piece.row > 1 && (piece.row - 1) * 16 + (piece.col + 1), 1)) );
- 
+
+            let possible_black_queens = black_queens.filter(piece => board.substr((piece.row + 1) * 16 + piece.col, 1) === ' ' || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row < 15 && (piece.row + 1) * 16 + piece.col, 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.col > 0 && piece.row * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.col < 15 && (piece.row * 16) + (piece.col + 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row < 15 && piece.col > 0) && (piece.row + 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row < 15 && piece.col < 15) && (piece.row + 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row > 0 && piece.col > 0) && (piece.row - 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && ((piece.row - 1) * 16) + piece.col, 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row > 0 && piece.col < 15) && (piece.row - 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && ((piece.row - 1) * 16) + piece.col, 1)));
+
             //  black kings
             let black_kings = black_pieces.filter(piece => piece.cel === 'k');
             // possible black kings
-            let possible_black_kings = black_kings.filter(piece => board.substr((piece.row + 1) * 16 + piece.col, 1) == ' ');
+            // let possible_black_kings = black_kings.filter(piece => board.substr((piece.row + 1) * 16 + piece.col, 1) == ' ');
+            let possible_black_kings = black_kings.filter(piece => board.substr((piece.row + 1) * 16 + piece.col, 1) === ' ' || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row < 15 && (piece.row + 1) * 16 + piece.col, 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.col > 0 && piece.row * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.col < 15 && (piece.row * 16) + (piece.col + 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row < 15 && piece.col > 0) && (piece.row + 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row < 15 && piece.col < 15) && (piece.row + 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row > 0 && piece.col > 0) && (piece.row - 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && ((piece.row - 1) * 16) + piece.col, 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row > 0 && piece.col < 15) && (piece.row - 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && ((piece.row - 1) * 16) + piece.col, 1)));
 
             // total possible black pieces
             const possible_black_pieces = [...possible_black_pawns, ...possible_black_queens, ...possible_black_kings];
@@ -69,38 +72,66 @@ const moves = {
         let selected_piece = null;
 
         while (!selected_piece) {
+            const white_pieces = boards[board_id].white_pieces;
+            const black_pieces = boards[board_id].black_pieces;
 
             const possible_pawns = possiblePieces.filter(piece => {
-                const white_pieces = boards[board_id].white_pieces;
-                const black_pieces = boards[board_id].black_pieces;
 
-                if (piece.cel === 'p' || piece.cel === 'P') {
+                if (piece.cel === 'P' || piece.cel === 'p') {
 
                     if (piece.color === 'white') {
 
-                        if (black_pieces.some(bp => bp.cel === board.substr((piece.row - 1) * 16 + piece.col - 1, 1)) || black_pieces.some(bp => bp.cel === board.substr((piece.row - 1) * 16 + piece.col + 1, 1))) {
+                        if ( (piece.row > 0 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr(((piece.row - 1) * 16) + (piece.col - 1), 1)) || (piece.row > 0 && piece.col < 15 )&& black_pieces.some(black_piece => black_piece.cel === board.substr( ((piece.row - 1) * 16) + (piece.col + 1), 1))) {
 
                             return piece.capture = true
                         }
 
                     } else {
 
-                        if (white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row + 1) * 16 + piece.col + 1, 1)) || white_pieces.some(wp => wp.cel === board.substr((piece.row + 1) * 16 + piece.col - 1, 1))) {
+                        if ((piece.row < 15 && piece.col < 15) && white_pieces.some(white_piece => white_piece.cel === board.substr( ((piece.row + 1) * 16) + (piece.col + 1), 1)) || (piece.row < 15 && piece.col > 0) && white_pieces.some(white_piece => white_piece.cel === board.substr( ((piece.row + 1) * 16) + (piece.col - 1), 1))) {
                             return piece.capture = true
+
                         };
                     }
                 }
             })
 
-            const possible_pawn_capture = possible_pawns.find(p => p.capture === true)
+            const possible_queens = possiblePieces.filter(piece => {
+
+                if (piece.cel === 'Q' || piece.cel === 'q') {
+                    if (piece.color === 'white') {
+
+                        if ( (piece.row > 0 && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + piece.col, 1))) || (piece.row > 0 && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col + 1), 1)) )|| ((piece.row > 0 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr(((piece.row - 1) * 16) + (piece.col - 1), 1))) || (piece.col < 15 && black_pieces.some(black_piece => black_piece.cel === board.substr(piece.row * 16 + (piece.col + 1), 1))) || ((piece.row > 0 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr(((piece.row + 1) * 16) + (piece.col + 1), 1))) || (piece.row < 15 && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1))) ||( (piece.row < 15 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1))) || ((piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr( piece.row * 16 + (piece.col - 1), 1)))) {
+
+                            return piece.capture = true
+                        }
+
+                    } else {
+
+                        if (white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row * 16) + (piece.col + 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row + 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && (piece.row - 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && (piece.row - 1) * 16 + piece.col, 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr(piece.row > 0 && (piece.row - 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && (piece.row - 1) * 16 + piece.col, 1))) {
+
+                            return piece.capture = true
+                        };
+                    }
+
+                }
+            })
+
+            const possible_pawn_capture = possible_pawns.find(p => p.capture === true);
+            const possible_queen_capture = possible_queens.find(p => p.capture === true);
             // possible_pawn = possiblePieces.find(p => (p.cel === 'p' ||  p.cel === 'P') && (p.col === 8 || p.col === 9));
-            const possible_pawn = possiblePieces.find(p => p.capture === false)
+            const possible_pawn = possiblePieces.find(p => (p.cel === 'P' || p.cel === 'p') && p.capture === false)
+            const possible_queen = possiblePieces.find(p => (p.cel === 'Q' || p.cel === 'q') && p.capture === false)
             // const possible_pawn = possiblePieces.find( p => p.cel === 'p' || p.cel === 'P')
-            const possible_queen = possiblePieces.find(p => p.cel === 'q' || p.cel === 'Q');
+            // const possible_queen = possiblePieces.find(p => p.cel === 'q' || p.cel === 'Q');
             const possible_king = possiblePieces.find(p => p.cel === 'k' || p.cel === 'K');
 
             if (possible_pawn_capture) {
                 return selected_piece = possible_pawn_capture;
+            }
+
+            if (possible_queen_capture) {
+                return selected_piece = possible_queen_capture;
             }
 
             if (possible_king) {
@@ -220,22 +251,22 @@ const moves = {
 
         if (color === 'white') {
             switch (side) {
-                case 'up':
+                // case 'up':
+                //     return {
+                //         color: color,
+                //         to_row: from_row - 1,
+                //         to_col: from_col,
+                //         value: value
+                //     }
+
+                //     break;
+
+                case 'up-right':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col,
-                        value: value
-                    }
-
-                    break;
-
-                case 'right-up':
-                    return {
-                        color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col + 1,
+                            value: value
                     }
 
                     break;
@@ -243,27 +274,27 @@ const moves = {
                 case 'right':
                     return {
                         color: color,
-                        to_row: from_row,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row,
+                            to_col: from_col + 1,
+                            value: value
                     }
                     break;
 
-                case 'right-down':
+                case 'down-right':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col + 1,
+                            value: value
                     }
                     break
 
                 case 'down':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col,
+                            value: value
                     }
 
                     break;
@@ -271,9 +302,9 @@ const moves = {
                 case 'down-left':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col - 1,
+                            value: value
                     }
                     break;
 
@@ -281,40 +312,47 @@ const moves = {
 
                     return {
                         color: color,
-                        to_row: from_row,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row,
+                            to_col: from_col - 1,
+                            value: value
                     }
 
                     break;
                 case 'up-left':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col - 1,
+                            value: value
                     }
                     break;
+                default:
+                    return {
+                        color: color,
+                            to_row: from_row - 1,
+                            to_col: from_col,
+                            value: value
+                    }
             }
 
         } else {
             switch (side) {
-                case 'up':
+                // case 'up':
+                //     return {
+                //         color: color,
+                //         to_row: from_row + 1,
+                //         to_col: from_col,
+                //         value: value
+                //     }
+
+                //     break;
+
+                case 'up-right':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col,
-                        value: value
-                    }
-
-                    break;
-
-                case 'right-up':
-                    return {
-                        color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col - 1,
+                            value: value
                     }
 
                     break;
@@ -322,27 +360,27 @@ const moves = {
                 case 'right':
                     return {
                         color: color,
-                        to_row: from_row,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row,
+                            to_col: from_col - 1,
+                            value: value
                     }
                     break;
 
-                case 'right-down':
+                case 'down-right':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col - 1,
+                            value: value
                     }
                     break
 
                 case 'down':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col,
+                            value: value
                     }
 
                     break;
@@ -350,9 +388,9 @@ const moves = {
                 case 'down-left':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col + 1,
+                            value: value
                     }
                     break;
 
@@ -360,64 +398,29 @@ const moves = {
 
                     return {
                         color: color,
-                        to_row: from_row,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row,
+                            to_col: from_col + 1,
+                            value: value
                     }
 
                     break;
                 case 'up-left':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col + 1,
+                            value: value
                     }
                     break;
+                default:
+                    return {
+                        color: color,
+                            to_row: from_row + 1,
+                            to_col: from_col,
+                            value: value
+                    }
             }
         }
-
-
-
-        // if (color === 'white') {
-        //     if (from_row >= 0) {
-        //         return {
-        //             color: color,
-        //             to_row: from_row - 1,
-        //             to_col: from_col,
-        //             value: value
-        //         }
-        //     } else {
-        //         return {
-        //             color: color,
-        //             to_row: from_row,
-        //             to_col: from_col - 1,
-        //             value: value
-        //         }
-        //     }
-
-        // } else {
-        //     if (from_row < 16) {
-        // return {
-        //     color: color,
-        //     to_row: from_row + 1,
-        //     to_col: from_col,
-        //     value: value
-        // }
-        // }
-        // else {
-        //     return {
-        //         color: color,
-        //         to_row: from_row,
-        //         to_col: from_col + 1,
-        //         value: value
-        //     }
-        // }
-
-        // }
-
-
-
 
     },
 
@@ -464,19 +467,19 @@ const moves = {
                 case 'up':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col,
+                            value: value
                     }
 
                     break;
 
-                case 'right-up':
+                case 'up-right':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col + 1,
+                            value: value
                     }
 
                     break;
@@ -484,27 +487,27 @@ const moves = {
                 case 'right':
                     return {
                         color: color,
-                        to_row: from_row,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row,
+                            to_col: from_col + 1,
+                            value: value
                     }
                     break;
 
-                case 'right-down':
+                case 'down-right':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col + 1,
+                            value: value
                     }
                     break
 
                 case 'down':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col,
+                            value: value
                     }
 
                     break;
@@ -512,9 +515,9 @@ const moves = {
                 case 'down-left':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col - 1,
+                            value: value
                     }
                     break;
 
@@ -522,39 +525,40 @@ const moves = {
 
                     return {
                         color: color,
-                        to_row: from_row,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row,
+                            to_col: from_col - 1,
+                            value: value
                     }
 
                     break;
                 case 'up-left':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col - 1,
+                            value: value
                     }
                     break;
             }
+
         } else {
             switch (side) {
                 case 'up':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col,
+                            value: value
                     }
 
                     break;
 
-                case 'right-up':
+                case 'up-right':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col - 1,
+                            value: value
                     }
 
                     break;
@@ -562,27 +566,27 @@ const moves = {
                 case 'right':
                     return {
                         color: color,
-                        to_row: from_row,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row,
+                            to_col: from_col - 1,
+                            value: value
                     }
                     break;
 
-                case 'right-down':
+                case 'down-right':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col - 1,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col - 1,
+                            value: value
                     }
                     break
 
                 case 'down':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col,
+                            value: value
                     }
 
                     break;
@@ -590,9 +594,9 @@ const moves = {
                 case 'down-left':
                     return {
                         color: color,
-                        to_row: from_row - 1,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row - 1,
+                            to_col: from_col + 1,
+                            value: value
                     }
                     break;
 
@@ -600,58 +604,56 @@ const moves = {
 
                     return {
                         color: color,
-                        to_row: from_row,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row,
+                            to_col: from_col + 1,
+                            value: value
                     }
 
                     break;
                 case 'up-left':
                     return {
                         color: color,
-                        to_row: from_row + 1,
-                        to_col: from_col + 1,
-                        value: value
+                            to_row: from_row + 1,
+                            to_col: from_col + 1,
+                            value: value
                     }
                     break;
             }
 
-        // if (color === 'white') {
-        //     if (from_row === 14) {
-        //         return {
-        //             color: color,
-        //             to_row: from_row - 1,
-        //             to_col: from_col,
-        //             value: value
-        //         };
-        //     } else {
-        //         return {
-        //             color: color,
-        //             to_row: from_row + 1,
-        //             to_col: from_col,
-        //             value: value
-        //         };
-        //     }
-        // } else {
+            // if (color === 'white') {
+            //     if (from_row === 14) {
+            //         return {
+            //             color: color,
+            //             to_row: from_row - 1,
+            //             to_col: from_col,
+            //             value: value
+            //         };
+            //     } else {
+            //         return {
+            //             color: color,
+            //             to_row: from_row + 1,
+            //             to_col: from_col,
+            //             value: value
+            //         };
+            //     }
+            // } else {
 
-        //     if (from_row === 1) {
-        //         return {
-        //             color: color,
-        //             to_row: from_row + 1,
-        //             to_col: from_col,
-        //             value: value
-        //         };
-        //     } else {
-        //         return {
-        //             color: color,
-        //             to_row: from_row - 1,
-        //             to_col: from_col,
-        //             value: value
-        //         };
-        //     }
+            //     if (from_row === 1) {
+            //         return {
+            //             color: color,
+            //             to_row: from_row + 1,
+            //             to_col: from_col,
+            //             value: value
+            //         };
+            //     } else {
+            //         return {
+            //             color: color,
+            //             to_row: from_row - 1,
+            //             to_col: from_col,
+            //             value: value
+            //         };
+            //     }
         }
-
-        
     }
 }
 
