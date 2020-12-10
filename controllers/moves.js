@@ -16,7 +16,7 @@ const moves = {
             // white pawns
             let white_pawns = white_pieces.filter(piece => piece.cel === 'P');
             // possible white pawns
-            let possible_white_pawns = white_pawns.filter(piece => board.substr((piece.row - 1) * 16 + piece.col, 1) === ' ' || black_pieces.some(black_piece => black_piece.cel === board.substr(piece.col > 0 && (piece.row - 1) * 16 + piece.col - 1, 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr(piece.col < 15 && ((piece.row - 1) * 16) + (piece.col + 1), 1)));
+            let possible_white_pawns = white_pawns.filter(piece => board.substr( piece.row > 0 && (piece.row - 1) * 16 + piece.col, 1) === ' ' || ((piece.row > 0 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr( piece.col > 0 && (piece.row - 1) * 16 + piece.col - 1, 1))) || ((piece.row > 0 && piece.col < 15) && black_pieces.some(black_piece => black_piece.cel === board.substr(((piece.row - 1) * 16) + (piece.col + 1), 1))));
 
             // white queens
             let white_queens = white_pieces.filter(piece => piece.cel === 'Q');
@@ -27,8 +27,7 @@ const moves = {
             // white kings
             let white_kings = white_pieces.filter(piece => piece.cel === 'K')
             // posibble white kings
-            // let possible_white_kings = white_kings.filter(p => board.substr((p.row - 1) * 16 + p.col, 1) == ' ');
-            let possible_white_kings = white_kings.filter(piece => board.substr((piece.row - 1) * 16 + piece.col, 1) == ' ' || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + piece.col, 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col + 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col - 1), 1)) || black_pieces.some(black_pieces => black_pieces.cel === board.substr(piece.row * 16 + (piece.col + 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col + 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1)) || black_pieces.some(black_piece => black_piece.cel === board.substr(piece.row * 16 + (piece.col - 1), 1)));
+            let possible_white_kings = white_kings.filter(piece => ((piece.row > 0) && board.substr((piece.row - 1) * 16 + piece.col, 1) == ' ') || ((piece.row > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + piece.col, 1)) )|| ((piece.row > 0 && piece.col < 15) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col + 1), 1))) || ((piece.row > 0 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr(((piece.row - 1) * 16) + (piece.col - 1), 1))) || (piece.col < 15 && black_pieces.some(black_pieces => black_pieces.cel === board.substr(piece.row * 16 + (piece.col + 1), 1))) || ((piece.row < 15 && piece.col < 15) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + (piece.col + 1), 1))) || (piece.row < 15 && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1))) || ((piece.row < 15 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1))) || (piece.col > 0 && black_pieces.some(black_piece => black_piece.cel === board.substr(piece.row * 16 + (piece.col - 1), 1))));
 
             //  total possible white pieces
             const possible_white_pieces = [...possible_white_pawns, ...possible_white_queens, ...possible_white_kings];
@@ -47,7 +46,6 @@ const moves = {
             // black queens
             let black_queens = black_pieces.filter(piece => piece.cel === 'q');
             //  possible black queens
-
             let possible_black_queens = black_queens.filter(piece => board.substr((piece.row + 1) * 16 + piece.col, 1) === ' ' || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row < 15 && (piece.row + 1) * 16 + piece.col, 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.col > 0 && piece.row * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.col < 15 && (piece.row * 16) + (piece.col + 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row < 15 && piece.col > 0) && (piece.row + 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row < 15 && piece.col < 15) && (piece.row + 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row > 0 && piece.col > 0) && (piece.row - 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && ((piece.row - 1) * 16) + piece.col, 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row > 0 && piece.col < 15) && (piece.row - 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && ((piece.row - 1) * 16) + piece.col, 1)));
 
             //  black kings
@@ -117,14 +115,34 @@ const moves = {
                 }
             })
 
+            const possible_kings = possiblePieces.filter(piece => {
+
+                if (piece.cel === 'K' || piece.cel === 'k') {
+                    if (piece.color === 'white') {
+
+                        if ( (piece.row > 0 && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + piece.col, 1))) || (piece.row > 0 && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row - 1) * 16 + (piece.col + 1), 1)) )|| ((piece.row > 0 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr(((piece.row - 1) * 16) + (piece.col - 1), 1))) || (piece.col < 15 && black_pieces.some(black_piece => black_piece.cel === board.substr(piece.row * 16 + (piece.col + 1), 1))) || ((piece.row > 0 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr(((piece.row + 1) * 16) + (piece.col + 1), 1))) || (piece.row < 15 && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1))) ||( (piece.row < 15 && piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1))) || ((piece.col > 0) && black_pieces.some(black_piece => black_piece.cel === board.substr( piece.row * 16 + (piece.col - 1), 1)))) {
+
+                            return piece.capture = true
+                        }
+
+                    } else {
+
+                        if (white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row + 1) * 16 + piece.col, 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr((piece.row * 16) + (piece.col + 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row + 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr((piece.row + 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && (piece.row - 1) * 16 + (piece.col - 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && (piece.row - 1) * 16 + piece.col, 1)) || white_pieces.some(white_pieces => white_pieces.cel === board.substr(piece.row > 0 && (piece.row - 1) * 16 + (piece.col + 1), 1)) || white_pieces.some(white_piece => white_piece.cel === board.substr(piece.row > 0 && (piece.row - 1) * 16 + piece.col, 1))) {
+
+                            return piece.capture = true
+                        };
+                    }
+
+                }
+            })
+
             const possible_pawn_capture = possible_pawns.find(p => p.capture === true);
             const possible_queen_capture = possible_queens.find(p => p.capture === true);
+            const possible_king_capture = possible_kings.find(p => p.capture === true);
             // possible_pawn = possiblePieces.find(p => (p.cel === 'p' ||  p.cel === 'P') && (p.col === 8 || p.col === 9));
             const possible_pawn = possiblePieces.find(p => (p.cel === 'P' || p.cel === 'p') && p.capture === false)
             const possible_queen = possiblePieces.find(p => (p.cel === 'Q' || p.cel === 'q') && p.capture === false)
-            // const possible_pawn = possiblePieces.find( p => p.cel === 'p' || p.cel === 'P')
-            // const possible_queen = possiblePieces.find(p => p.cel === 'q' || p.cel === 'Q');
-            const possible_king = possiblePieces.find(p => p.cel === 'k' || p.cel === 'K');
+            // const possible_king = possiblePieces.find(p => p.cel === 'k' || p.cel === 'K');
 
             if (possible_pawn_capture) {
                 return selected_piece = possible_pawn_capture;
@@ -134,8 +152,8 @@ const moves = {
                 return selected_piece = possible_queen_capture;
             }
 
-            if (possible_king) {
-                return selected_piece = possible_king;
+            if (possible_king_capture) {
+                return selected_piece = possible_king_capture;
             }
             if (!possible_queen) {
                 return selected_piece = possible_pawn;
@@ -143,6 +161,8 @@ const moves = {
                 return selected_piece = possible_queen;
             }
         }
+        console.log(`Selected piece:`);
+        console.log(selected_piece);
     },
 
     move: ({

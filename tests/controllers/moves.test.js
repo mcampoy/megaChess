@@ -1,20 +1,64 @@
 const moves = require('../../controllers/moves');
 const parseBoard = require('../../controllers/board')
-const initialBoard = require('../dataTest/initialBoard.json');
+const initial_board = require('../dataTest/initialBoard.json');
 const {
-    possiblePieces, selectPiece
+    possiblePieces,
+    selectPiece
 } = require('../../controllers/moves');
 
 
-describe('Test de las piezas con movimientos posibles', () => {
-    test('debe retornar 16 piezas con movimiento en el tablero inicial', () => {
+describe('Test de la función que retorna las piezas con movimientos posibles', () => {
 
-        const data = initialBoard;
-        parseBoard(data.data)
-        const posiblesPieces = moves.possiblePieces(data.data.actual_turn, data.data.board);
+    test('debe retornar el array con 16 piezas de un color con movimiento posible en el tablero inicial', () => {
 
-        expect(posiblesPieces.length).toBe(16)
+        const data = initial_board;
+        parseBoard(data.data);
+        const possible_pieces = moves.possiblePieces(data.data.actual_turn, data.data.board);
+
+        expect(possible_pieces.length).toBe(16);
+    });
+
+    test('debe retornar 23 piezas posibles en un tablero de una partida avanzada', () => {
+
+        let board = "rrhhbbqq  bbhhrrrrhhbbqq  bbhhrrpppppppp  pppppppppppppp  ppppp                                                p                Q Q  Q      QQQ  P  P  P  P P  PPP   PP            PP   PPP PP  PP   P   P    kk P            kk      RRHHBBQQqqBBHHRRRRHHBBQQqqBBHHRR"
+
+        expect((possiblePieces('black', board)).length).toBe(23);
+
+    });
+
+    test('debe impedir que un peon de segudna líena en el tablero inicial sea elegido como pieza con movimiento posible', () => {
+
+        const data = initial_board;
+        parseBoard(data.data);
+        const possible_pieces = moves.possiblePieces(data.data.actual_turn, data.data.board);
+
+        expect(possible_pieces).not.toContainEqual({
+            cel: 'P',
+            row: 11,
+            col: 0,
+            color: 'white',
+            capture: false,
+            value: 10,
+            value_capture: 0
+        })
     })
+});
+
+
+describe('se prueba la función de seleccionar una pieza', () => {
+
+    test('entre las piezas posibles establece qué piezas tiene la posibilidad de capturar una pieza rival', () => {
+
+        let board = "rrhhbbqqkkbbhhrrrrhhbb qkkbbhhrrpp p p ppppppppp p p p  pp                            q   p           Q        P            PP P P P P P PPPPPPP P PRRHHBBQQKKBBHHRRRRHHBBQQKKBBHHRR";
+        const possible_pieces = moves.possiblePieces('black', board);
+        // console.log(possible_pieces)
+        let possible_capture = selectPiece(possible_pieces, board)
+        console.log(possible_capture)
+        // expect(possible_capture)
+
+    })
+
+
 })
 
 
@@ -28,15 +72,14 @@ describe('se prueban movimiento de los peones', () => {
             to_col: 0
         });
 
-        const moveBPawn = moves.movePawn(3, 0, 'black');
-        expect(moveBPawn).toEqual({
+        expect(moves.movePawn(2, 0, 'black')).toEqual({
             color: 'black',
-            to_row: 5,
+            to_row: 4,
             to_col: 0
         });
     })
 
-    test('debe mover el peón blanco un lugar', () => {
+    test('debe mover el peón blanco un lugar a partir de la fila 10', () => {
 
         const moveWPawn = moves.movePawn(10, 12, 'white');
         expect(moveWPawn).toEqual({
@@ -46,7 +89,7 @@ describe('se prueban movimiento de los peones', () => {
         });
     })
 
-    test('debe mover el peón negro un lugar', () => {
+    test('debe mover el peón negro un lugar a partir de la fila 4', () => {
 
         const moveBPawn = moves.movePawn(4, 12, 'black');
         expect(moveBPawn).toEqual({
@@ -94,29 +137,5 @@ describe('se prueban movimiento de los peones', () => {
             to_col: 4
         })
     })
-
-})
-
-
-describe('se prueba la selección de posibles piezas', () => {
-
-    test('debe retornar 23 piezas posibles', () => {
-
-        let board = "rrhhbbqq  bbhhrrrrhhbbqq  bbhhrrpppppppp  pppppppppppppp  ppppp                                                p                Q Q  Q      QQQ  P  P  P  P P  PPP   PP            PP   PPP PP  PP   P   P    kk P            kk      RRHHBBQQqqBBHHRRRRHHBBQQqqBBHHRR"
-
-        expect((possiblePieces('black', board)).length).toBe(23)
-
-    })
-
-    test('debe retornar falso', ()=>{
-        let board = "rrhhbbqq  bbhhrrrrhhbbqq  bbhhrrpppppppp  pppppppppppppp  ppppp                                                p                Q Q  Q      QQQ  P  P  P  P P  PPP   PP            PP   PPP PP  PP   P   P    kk P            kk      RRHHBBQQqqBBHHRRRRHHBBQQqqBBHHRR"
-
-        let possible = possiblePieces('black', board);
-
-        expect(selectPiece(possible, board)).toEqual({ cel: 'p', row: 6, col: 15, color: 'black', capture: true, value: 10 })
-
-    })
-
-
 
 })

@@ -13,7 +13,6 @@ const values = {
     k: 100
 }
 
-
 var pretty_pieces = {
     'p': '♟',
     'P': '♙',

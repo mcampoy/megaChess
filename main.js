@@ -3,10 +3,10 @@ require('dotenv').config();
 const WebSocketClient = require('websocket').client;
 const client = new WebSocketClient();
 
-// const uri = 'ws://mega-chess-qa.herokuapp.com/service?authtoken=';
-// const auth_token = process.env.AUTH_TOKEN2;
-const uri = 'ws://megachess.herokuapp.com/service?authtoken='
-const auth_token = process.env.AUTH_TOKEN;
+const uri = 'ws://mega-chess-qa.herokuapp.com/service?authtoken=';
+const auth_token = process.env.AUTH_TOKEN2;
+// const uri = 'ws://megachess.herokuapp.com/service?authtoken='
+// const auth_token = process.env.AUTH_TOKEN;
 
 client.connect(uri + auth_token);
 
@@ -91,10 +91,6 @@ client.on('connect', async (connection) => {
                 if (possible_pieces) {
 
                     const selected_piece = selectPiece(possible_pieces, data.board);
-
-                    console.log(`Selected piece:`);
-                    console.log(selected_piece);
-
                     const response = strategy(selected_piece, data);
                     console.log(response);
 
