@@ -1,5 +1,3 @@
-
-
  const sendData = async (websocket, action, data) => {
     try {
             resp = JSON.stringify({

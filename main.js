@@ -3,10 +3,8 @@ require('dotenv').config();
 const WebSocketClient = require('websocket').client;
 const client = new WebSocketClient();
 
-const uri = 'ws://mega-chess-qa.herokuapp.com/service?authtoken=';
-const auth_token = process.env.AUTH_TOKEN2;
-// const uri = 'ws://megachess.herokuapp.com/service?authtoken='
-// const auth_token = process.env.AUTH_TOKEN;
+const uri = 'ws://megachess.herokuapp.com/service?authtoken='
+const auth_token = process.env.AUTH_TOKEN;
 
 client.connect(uri + auth_token);
 
@@ -18,7 +16,7 @@ const {
     selectPiece
 } = require('./controllers/moves');
 
-const parseBoard = require('./controllers/board');
+const { parseBoard, renderBoard } = require('./controllers/board');
 
 client.on('connectFailed', async (error) => {
     console.log('Connect Error: ' + error.toString());
@@ -73,17 +71,18 @@ client.on('connect', async (connection) => {
 
             //         }
 
-            if (event === 'ask_challenge') {
+            // if (event === 'ask_challenge') {
 
-                await send(connection, 'accept_challenge', {
-                    'board_id': data.board_id
-                });
-            }
+                // await send(connection, 'accept_challenge', {
+                //     'board_id': data.board_id
+                // });
+            // }
 
             if (event === 'your_turn') {
 
                 console.log('processing ' + data.turn_token);
 
+                renderBoard(data)
                 parseBoard(data);
 
                 const possible_pieces = possiblePieces(data.actual_turn, data.board);
@@ -91,14 +90,14 @@ client.on('connect', async (connection) => {
                 if (possible_pieces) {
 
                     const selected_piece = selectPiece(possible_pieces, data.board);
+
+                    console.log(`Selected piece:`);
+                    console.log(selected_piece);
+
                     const response = strategy(selected_piece, data);
                     console.log(response);
 
                     await send(connection, 'move', response);
-
-                } else {
-
-                    await send(connection, "abort", data.board_id)
                 }
             }
 

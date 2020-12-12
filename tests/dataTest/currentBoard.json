@@ -1,0 +1,12 @@
+{
+    "event": "your_turn",
+    "data": {
+        "board_id": "2f747602-396f-4186-a2e3-a4440b58f37b",
+        "turn_token": "37377f49-2ad9-4094-8bc4-b08379e1b09c",
+        "username": "matias",
+        "actual_turn": "white",
+        "board": "QQQQQQQqkkbbhhrr       qkkbbhhrr       ppppppppp       p                                Q        q        PPPPPPPPP       RRHHBBQQK       RRHHBBQQKqqqqqqq",
+        "move_left":143,
+        "opponent_username":"matias"
+    }
+}

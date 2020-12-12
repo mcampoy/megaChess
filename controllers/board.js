@@ -13,23 +13,6 @@ const values = {
     k: 100
 }
 
-var pretty_pieces = {
-    'p': '♟',
-    'P': '♙',
-    'r': '♜',
-    'R': '♖',
-    'k': '♚',
-    'K': '♔',
-    'h': '♞',
-    'H': '♘',
-    'b': '♝',
-    'B': '♗',
-    'q': '♛',
-    'Q': '♕',
-    ' ': ' '
-}
-
-
 const parseBoard = (data) => {
     boards = {};
 
@@ -38,12 +21,10 @@ const parseBoard = (data) => {
 
     white_pieces = [];
     black_pieces = [];
-
-    console.log("B 0123456789012345");
+    empties = []
 
     for (let i = 0; i < 16; i++) {
         let row = 16 * i;
-        console.log((i % 10) + " " + board.substr(row, 16))
         for (let j = 0; j < 16; j++) {
             let col = j;
             let cel = board.substr(row + col, 1);
@@ -62,11 +43,11 @@ const parseBoard = (data) => {
                 } else {
                     black_pieces.push(piece);
                 }
+            } else {
+                empties.push(cel)
             }
         }
     }
-    console.log("W 0123456789012345")
-
 
     boards[board_id] = {
         white_pieces: white_pieces,
@@ -76,4 +57,19 @@ const parseBoard = (data) => {
     return boards
 }
 
-module.exports = parseBoard;
+const renderBoard = (data) => {
+
+    board = data.board;
+
+    console.log("B 0123456789012345");
+    for (let i = 0; i < 16; i++) {
+        let row = 16 * i;
+        console.log((i % 10) + " " + board.substr(row, 16))
+    }
+    console.log("W 0123456789012345")
+}
+
+module.exports = {
+    parseBoard,
+    renderBoard
+};
